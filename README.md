@@ -42,17 +42,18 @@ Las variables incluyen información demográfica, académica y de hábitos de vi
 Se eliminaron las siguientes columnas antes de cualquier otro procesamiento:
 
 - **`id`**: Es un identificador único sin valor predictivo, solo causaria que nuestro modelo intente encontrar una relación con nuestras demás variables.
+- **`City`**: Inicialmente se habia considerado para el entrenamiento del modelo y al aplicar ténicas de exploración, se decidio clasificar este atributo entre Ciudad y Urbe. Sin embargo, al hacer buscar la relación entre este atributo y el resultado `y (Depresión)`, se determino que es inconcluso y por ende se determino eliminarlo del dataset.
 - **`Work Pressure`** y **`Job Satisfaction`**: Al revisar el dataset, se encontró que el **100% de los valores de estas columnas son 0**, lo que indica que los estudiantes de este dataset no tienen actividad laboral registrada. Columnas sin varianza no aportan información al modelo.
 
 ### Validación de Columnas Categóricas
 
-Se detectó que las columnas `City`, `Degree` y `Profession` contenían **entradas inválidas o erróneas**. Valores como nombres de personas, grados académicos en el campo de ciudad  o entradas sin sentido. Para limpiar estas columnas se aplicó un **filtro de frecuencia mínima de 10 apariciones**: cualquier valor que aparezca menos de 10 veces se considera un dato atípico o erróneo y se reemplaza con `NaN`. 
+Se detectó que las columnas `Degree` y `Profession` contenían **entradas inválidas o erróneas**. Valores como nombres de personas, grados académicos en el campo de ciudad  o entradas sin sentido. Para limpiar estas columnas se aplicó un **filtro de frecuencia mínima de 10 apariciones**: cualquier valor que aparezca menos de 10 veces se considera un dato atípico o erróneo y se reemplaza con `NaN`. 
 
 ### Tratamiento de Valores Faltantes
 
-Después de la validación categórica, el dataset presentó **60 valores faltantes** distribuidos en las columnas `City` (26), `Profession` (31) y `Financial Stress` (3).
+Después de la validación categórica, el dataset presentó **60 valores faltantes** distribuidos en las columnas `Profession` (31) y `Financial Stress` (3).
 
-Se decidió **eliminar las filas con valores faltantes** (`dropna`) en lugar de imputar un valor (como la media o moda) ya que las 60 instancias afectadas representan apenas el **0.21%** del total de **27,901 registros**, por lo que su eliminación no altera significativamente la distribución del dataset.
+Se decidió **eliminar las filas con valores faltantes** (`dropna`) en lugar de imputar un valor (como la media o moda) ya que las 60 instancias afectadas representan apenas el **0.21%** del total de **27,867 registros**, por lo que su eliminación no altera significativamente la distribución del dataset.
 
 ### Eliminación de Duplicados
 
@@ -77,8 +78,10 @@ Se normalizaron las columnas `Age`, `Academic Pressure`, `CGPA`, `Study Satisfac
 
 #### Variables Categóricas — `OneHotEncoder`
 
-Se aplicó **OneHotEncoder** a las columnas `Gender`, `City`, `Profession`, `Sleep Duration`, `Dietary Habits`, `Degree` y `Family History of Mental Illness`, convirtiendo cada categoría en una columna binaria independiente.
+Se aplicó **OneHotEncoder** a las columnas `Gender`, `Profession`, `Sleep Duration`, `Dietary Habits`, `Degree` y `Family History of Mental Illness`, convirtiendo cada categoría en una columna binaria independiente.
 
 ### Referencias
 
 Yang, T., He, Y., Wu, L., Ren, L., Lin, J., Wang, C., Wu, S., & Liu, X. (2023). The relationships between anxiety and suicidal ideation and between depression and suicidal ideation among Chinese college students: A network analysis. Heliyon, 9(10), e20938. https://doi.org/10.1016/j.heliyon.2023.e20938
+
+Forrest LN, Waschbusch DA, Pearl AM, Bixler EO, Sinoway LI, et al. (2023) Urban vs. rural differences in psychiatric diagnoses, symptom severity, and functioning in a psychiatric sample. PLOS ONE 18(10): e0286366. https://doi.org/10.1371/journal.pone.0286366
