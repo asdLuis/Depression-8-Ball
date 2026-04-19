@@ -105,7 +105,7 @@ Se utilizó **EarlyStopping** monitoreando `val_accuracy` con `patience=3` y `re
 
 ### Métricas de Entrenamiento
 
-![Training Metrics](dataset/training_metrics.png)
+![Training Metrics](assets/training_metrics.png)
 
 | Métrica | No Depression | Depression | Promedio |
 |---|---|---|---|
@@ -126,7 +126,7 @@ Se utilizó **EarlyStopping** monitoreando `val_accuracy` con `patience=3` y `re
 
 ## Matriz de Confusión
 
-![Confusion Matrix](dataset/confusion_matrix.png)
+![Confusion Matrix](assets/confusion_matrix.png)
 
 En el contexto de salud mental estudiantil, los **falsos negativos son el error más grave**. Decirle a un estudiante que padece depresión que está bien significa que no recibirá ayuda ni intervención a tiempo, lo cual puede tener consecuencias serias para su bienestar.
 
