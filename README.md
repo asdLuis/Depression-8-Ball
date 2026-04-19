@@ -39,10 +39,10 @@ Las variables incluyen información demográfica, académica y de hábitos de vi
 
 ### Eliminación de Columnas No Relevantes
 
-Se eliminaron las siguientes columnas antes de cualquier otro procesamiento:
+Se eliminaron las siguientes columnas antes de cualquier otro procesamiento: [[1]](https://doi.org/10.1016/j.heliyon.2023.e20938)
 
 - **`id`**: Es un identificador único sin valor predictivo, solo causaria que nuestro modelo intente encontrar una relación con nuestras demás variables.
-- **`City`**: Inicialmente se habia considerado para el entrenamiento del modelo y al aplicar ténicas de exploración, se decidio clasificar este atributo entre Ciudad y Urbe. Sin embargo, al hacer buscar la relación entre este atributo y el resultado `y (Depresión)`, se determino que es inconcluso y por ende se determino eliminarlo del dataset.
+- **`City`**: Inicialmente se habia considerado para el entrenamiento del modelo y al aplicar ténicas de exploración, se decidio clasificar este atributo entre Ciudad y Urbe. Sin embargo, al hacer buscar la relación entre este atributo y el resultado `y (Depresión)`, se determino que es inconcluso y por ende se determino eliminarlo del dataset. [[2]](https://doi.org/10.1371/journal.pone.0286366)
 - **`Work Pressure`** y **`Job Satisfaction`**: Al revisar el dataset, se encontró que el **100% de los valores de estas columnas son 0**, lo que indica que los estudiantes de este dataset no tienen actividad laboral registrada. Columnas sin varianza no aportan información al modelo.
 
 ### Validación de Columnas Categóricas
@@ -118,7 +118,7 @@ Se utilizó **EarlyStopping** monitoreando `val_accuracy` con `patience=3` y `re
 
 - **Precision (0.86 para Depression):** Cuando el modelo predice que un estudiante tiene depresión, acierta el 86% de las veces. Esto significa que los falsos positivos (decirle a alguien sano que tiene depresión) son relativamente bajos.
 
-- **Recall (0.89 para Depression):** El modelo detecta correctamente al 89% de los estudiantes que realmente tienen depresión. Esta es la métrica es la más importante para este problema.
+- **Recall (0.89 para Depression):** El modelo detecta correctamente al 89% de los estudiantes que realmente tienen depresión. Esta es la métrica es la más importante para este problema. [[3]](https://doi.org/10.1503/cmaj.170125)
 
 - **F1-Score (0.87 para Depression):**  entre precision y recall. Un valor de 0.87 indica que el modelo tiene un buen equilibrio entre no generar falsas alarmas y no perderse casos reales.
 
@@ -143,8 +143,8 @@ La brecha creciente entre la loss de entrenamiento y validación ya que el model
 
 ### Referencias
 
-Yang, T., He, Y., Wu, L., Ren, L., Lin, J., Wang, C., Wu, S., & Liu, X. (2023). The relationships between anxiety and suicidal ideation and between depression and suicidal ideation among Chinese college students: A network analysis. Heliyon, 9(10), e20938. https://doi.org/10.1016/j.heliyon.2023.e20938
+[1] Yang, T., He, Y., Wu, L., Ren, L., Lin, J., Wang, C., Wu, S., & Liu, X. (2023). The relationships between anxiety and suicidal ideation and between depression and suicidal ideation among Chinese college students: A network analysis. Heliyon, 9(10), e20938. https://doi.org/10.1016/j.heliyon.2023.e20938
 
-Forrest LN, Waschbusch DA, Pearl AM, Bixler EO, Sinoway LI, et al. (2023) Urban vs. rural differences in psychiatric diagnoses, symptom severity, and functioning in a psychiatric sample. PLOS ONE 18(10): e0286366. https://doi.org/10.1371/journal.pone.0286366
+[2] Forrest LN, Waschbusch DA, Pearl AM, Bixler EO, Sinoway LI, et al. (2023) Urban vs. rural differences in psychiatric diagnoses, symptom severity, and functioning in a psychiatric sample. PLOS ONE 18(10): e0286366. https://doi.org/10.1371/journal.pone.0286366
 
-Gilman, S. E., Sucha, E., Kingsbury, M., Horton, N. J., Murphy, J. M., & Colman, I. (2017). Depression and mortality in a longitudinal study: 1952-2011. CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne, 189(42), E1304–E1310. https://doi.org/10.1503/cmaj.170125
+[3] Gilman, S. E., Sucha, E., Kingsbury, M., Horton, N. J., Murphy, J. M., & Colman, I. (2017). Depression and mortality in a longitudinal study: 1952-2011. CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne, 189(42), E1304–E1310. https://doi.org/10.1503/cmaj.170125
