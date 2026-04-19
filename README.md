@@ -138,8 +138,7 @@ En contraste, un falso positivo le diría a un estudiante sano que podría tener
 
 El modelo presenta `señales de overfitting`. Esto se debe principalmente a que:
 
-La brecha creciente entre la loss de entrenamiento y validación ya que el modelo mejora en train pero no en validación de forma proporcional.
-- La inestabilidad en recall y precision de validación sugiere que el modelo no está generalizando de forma estable.
+La brecha creciente entre la loss de entrenamiento y validación ya que el modelo mejora en train pero no en validación de forma proporcional y que la inestabilidad en recall y precision de validación sugiere que el modelo no está generalizando de forma estable.
 
 
 ### Referencias
