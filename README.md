@@ -51,7 +51,7 @@ Se detectó que las columnas `Degree` y `Profession` contenían **entradas invá
 
 ### Tratamiento de Valores Faltantes
 
-Después de la validación categórica, el dataset presentó **60 valores faltantes** distribuidos en las columnas `Profession` (31) y `Financial Stress` (3).
+Después de la validación categórica, el dataset presentó **34 valores faltantes** distribuidos en las columnas `Profession` (31) y `Financial Stress` (3).
 
 Se decidió **eliminar las filas con valores faltantes** (`dropna`) en lugar de imputar un valor (como la media o moda) ya que las 60 instancias afectadas representan apenas el **0.21%** del total de **27,867 registros**, por lo que su eliminación no altera significativamente la distribución del dataset.
 
