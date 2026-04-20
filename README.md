@@ -44,7 +44,7 @@ Se eliminaron las siguientes columnas antes de cualquier otro procesamiento: [[1
 - **`id`**: Es un identificador único sin valor predictivo, solo causaria que nuestro modelo intente encontrar una relación con nuestras demás variables.
 - **`City`**: Inicialmente se habia considerado para el entrenamiento del modelo y al aplicar ténicas de exploración, se decidio clasificar este atributo entre Ciudad y Urbe. Sin embargo, al hacer buscar la relación entre este atributo y el resultado `y (Depresión)`, se determino que es inconcluso y por ende se determino eliminarlo del dataset. [[2]](https://doi.org/10.1371/journal.pone.0286366)
 - **`Work Pressure`** y **`Job Satisfaction`**: Al revisar el dataset, se encontró que el **100% de los valores de estas columnas son 0**, lo que indica que los estudiantes de este dataset no tienen actividad laboral registrada. Columnas sin varianza no aportan información al modelo.
-- **`Profession`: Similar a `Work Pressure` y `Job Satisfaction`, todos los datos pertenecen a la categoria `Student`. Columnas sin varianza no aportan información al modelo.
+- **`Profession`**: Similar a `Work Pressure` y `Job Satisfaction`, todos los datos pertenecen a la categoria `Student`. Columnas sin varianza no aportan información al modelo.
 
 ### Validación de Columnas Categóricas
 
