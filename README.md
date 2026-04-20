@@ -235,6 +235,18 @@ Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilid
 
 Esto se hizo con la intención de amplificar aún más el efecto de los `class weights` en la dirección correcta, ya que al bajar el umbral, el modelo es más agresivo al predecir depresión, capturando casos que con un umbral estándar habrían sido clasificados como sanos. El resultado directo es una reducción adicional de falsos negativos a costa de incrementar ligeramente los falsos positivos, lo que es un intercambio aceptable dado el contexto de salud mental del proyecto.
 
+## Uso del Predictor
+
+Para ejecutar el predictor, corre el siguiente comando en la raíz del proyecto:
+
+```bash
+python3 predict.py
+```
+
+El programa te hará una serie de preguntas divididas en 4 secciones. En las preguntas de selección, ingresa el **número** de la opción deseada. En las preguntas numéricas, ingresa el valor dentro del rango indicado.
+
+> Asegúrate de tener el modelo entrenado en `./model/depression_model.h5` y el dataset original en `./dataset/dataset.csv` antes de ejecutar el predictor.
+
 ### Referencias
 
 [1] Yang, T., He, Y., Wu, L., Ren, L., Lin, J., Wang, C., Wu, S., & Liu, X. (2023). The relationships between anxiety and suicidal ideation and between depression and suicidal ideation among Chinese college students: A network analysis. Heliyon, 9(10), e20938. https://doi.org/10.1016/j.heliyon.2023.e20938
