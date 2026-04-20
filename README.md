@@ -98,7 +98,7 @@ Como base se selecciono la siguiente arquitectura:
 - **Batch size:** 32
 - **Validación durante entrenamiento:** 20% del set de entrenamiento
 
-Se utilizó **EarlyStopping** monitoreando `val_accuracy` con `patience=3` y `restore_best_weights=True`, lo que detiene el entrenamiento automáticamente cuando la precisión de validación deja de mejorar y restaura los pesos del mejor epoch observado.
+Se utilizó **EarlyStopping** monitoreando `val_accuracy` con `patience=3` y `restore_best_weights=True`, lo que detiene el entrenamiento automáticamente cuando la precisión del modelo deja de mejorar y restaura los pesos del mejor epoch observado.
 
 ---
 
