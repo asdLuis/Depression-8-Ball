@@ -44,6 +44,7 @@ Se eliminaron las siguientes columnas antes de cualquier otro procesamiento: [[1
 - **`id`**: Es un identificador único sin valor predictivo, solo causaria que nuestro modelo intente encontrar una relación con nuestras demás variables.
 - **`City`**: Inicialmente se habia considerado para el entrenamiento del modelo y al aplicar ténicas de exploración, se decidio clasificar este atributo entre Ciudad y Urbe. Sin embargo, al hacer buscar la relación entre este atributo y el resultado `y (Depresión)`, se determino que es inconcluso y por ende se determino eliminarlo del dataset. [[2]](https://doi.org/10.1371/journal.pone.0286366)
 - **`Work Pressure`** y **`Job Satisfaction`**: Al revisar el dataset, se encontró que el **100% de los valores de estas columnas son 0**, lo que indica que los estudiantes de este dataset no tienen actividad laboral registrada. Columnas sin varianza no aportan información al modelo.
+- **`Profession`: Similar a `Work Pressure` y `Job Satisfaction`, todos los datos pertenecen a la categoria `Student`. Columnas sin varianza no aportan información al modelo.
 
 ### Validación de Columnas Categóricas
 
@@ -140,6 +141,99 @@ El modelo presenta `señales de overfitting`. Esto se debe principalmente a que:
 
 La brecha creciente entre la loss de entrenamiento y validación ya que el modelo mejora en train pero no en validación de forma proporcional y que la inestabilidad en recall y precision de validación sugiere que el modelo no está generalizando de forma estable.
 
+## Refinamiento del Modelo
+
+### Enfoque
+
+El Modelo 2 surge de la necesidad de reducir los **falsos negativos** es decir, casos donde un estudiante con depresión es clasificado como sano. En un contexto de salud mental, este es el error más costoso: un estudiante que necesita ayuda no la recibirá. Para lograr esto se realizaron cambios tanto en la arquitectura como en la estrategia de entrenamiento.
+
+---
+
+### Arquitectura
+
+Se duplicaron las capas y neuronas respecto al Modelo 1, añadiendo regularización progresiva mediante Dropout:
+
+| Capa | Tipo | Neuronas | Activación | Regularización |
+|---|---|---|---|---|
+| Entrada | Input | 71 | - | - |
+| Oculta 1 | Dense | 256 | ReLU | Dropout(0.4) |
+| Oculta 2 | Dense | 128 | ReLU | Dropout(0.3) |
+| Oculta 3 | Dense | 64 | ReLU | Dropout(0.2) |
+| Oculta 4 | Dense | 32 | ReLU | Dropout(0.1) |
+| Salida | Dense | 1 | Sigmoid | - |
+
+### Dropout
+Se implemento Dropout que desactiva aleatoriamente un porcentaje de neuronas durante cada paso de entrenamiento, forzando al modelo a aprender representaciones redundantes en lugar de memorizar, esto con el fin de contrarestar el overfitting del modelo base.
+
+---
+
+### Configuración de Entrenamiento
+
+`Learning Rate: 0.0005`
+Se redujo a la mitad. Esto es porque un learning rate más pequeño hace que el modelo aprenda con pasos más pequeños y precisos, reduciendo el riesgo de saltar sobre el mínimo óptimo de la función de pérdida.
+
+`Epochs: 50`
+Se aumentaron a 50 para darle al modelo más oportunidades de aprender, confiando en que `EarlyStopping` y `ReduceLROnPlateau` detendrán el entrenamiento en el momento correcto.
+
+`Batch Size: 64`
+Se usaron lotes más grandes, lo que produce estimaciones de gradiente más estables por cada actualización de pesos.
+
+---
+
+### Callbacks
+
+Como se menciono previamente, se busca evitar o reducir la posibilidad de un `falso negativo`, es por eso que enfocaremos nuestros callbacks en el `recall de validación` para garantizar que nuestro modelo esta priorizando mejorar bajo esta métrica.
+
+**EarlyStopping**
+
+Detiene el entrenamiento si el recall de validación no mejora durante 5 epocas consecutivas, y restaura los pesos de la mejor epoca observada. Se monitorea `val_recall` en lugar de `val_accuracy` porque el objetivo principal del modelo es minimizar falsos negativos, no maximizar la precisión general.
+
+**ReduceLROnPlateau**
+
+Si el recall de validación no mejora durante 3 epochs, reduce el learning rate a la mitad (`factor=0.5`). Esto permite que el modelo haga ajustes más finos cuando el aprendizaje se estanca, en lugar de detenerse prematuramente. El proceso puede repetirse hasta llegar al mínimo de `0.00001`.
+
+---
+
+### Class Weights
+
+Los class weights le indican al modelo cuánto penalizar cada tipo de error durante el entrenamiento. Al asignar un peso de **1.3 a la clase Depression**, cada vez que el modelo falla en identificar un estudiante deprimido, el error se multiplica por 1.3 — haciéndolo más costoso que fallar en la clase contraria.
+
+Esto directamente incentiva al modelo a priorizar el recall de la clase Depression sobre la precisión general, resultando en **menos falsos negativos** a costa de algunos falsos positivos adicionales. En el contexto de salud mental estudiantil, este tradeoff es justificable ya que es preferible derivar a un estudiante sano a una evaluación adicional que ignorar a uno que genuinamente necesita ayuda.
+
+---
+
+### Resultados
+
+| Métrica | No Depression | Depression | Overall |
+|---|---|---|---|
+| Precision | 0.90 | 0.78 | 0.84 |
+| Recall | 0.62 | 0.95 | 0.79 |
+| F1-Score | 0.73 | 0.86 | 0.80 |
+| **Accuracy** | - | - | **0.816** |
+
+### Matriz de Confusión
+
+![Confusion Matrix Model 2](assets/real_confusion_matrix.png)
+
+### Curvas de Entrenamiento
+
+![Training Metrics Model 2](assets/real_training_metrics.png)
+
+---
+
+### Diferencias en Resultados
+
+**Recall de 0.95 en Depression**: el modelo detecta correctamente el 95% de los estudiantes con depresión, dejando escapar solo el 5%.
+
+**Recall de 0.65 en No Depression**: el intercambio directo del `class weight`. El modelo es más conservador y prefiere etiquetar casos dudosos como depresión para no perder ningún caso real.
+
+**Ausencia de Overfitting**: a diferencia del modelo base, las curvas de validación se mantienen por encima o al nivel de las curvas de entrenamiento durante todo el proceso.
+
+### Limite decisivo
+
+Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilidad predicha es mayor a 0.5, se clasifica como positivo. En este modelo se redujo el umbral a **0.35**, lo que significa que el modelo etiqueta a un estudiante como deprimido si la probabilidad predicha es mayor al 35% en lugar del 50%.
+
+Esto se hizo con la intención de amplificar aún más el efecto de los `class weights` en la dirección correcta, ya que al bajar el umbral, el modelo es más agresivo al predecir depresión, capturando casos que con un umbral estándar habrían sido clasificados como sanos. El resultado directo es una reducción adicional de falsos negativos a costa de incrementar ligeramente los falsos positivos, lo que es un intercambio aceptable dado el contexto de salud mental del proyecto.
 
 ### Referencias
 
