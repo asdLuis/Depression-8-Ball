@@ -79,7 +79,7 @@ Se normalizaron las columnas `Age`, `Academic Pressure`, `CGPA`, `Study Satisfac
 
 #### Variables Categóricas — `OneHotEncoder`
 
-Se aplicó **OneHotEncoder** a las columnas `Gender`, `Profession`, `Sleep Duration`, `Dietary Habits`, `Degree` y `Family History of Mental Illness`, convirtiendo cada categoría en una columna binaria independiente.
+Se aplicó **OneHotEncoder** a las columnas `Gender`, `Sleep Duration`, `Dietary Habits`, `Degree` y `Family History of Mental Illness`, convirtiendo cada categoría en una columna binaria independiente.
 
 ## Arquitectura del Modelo
 
