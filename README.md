@@ -83,7 +83,7 @@ Se aplicó **OneHotEncoder** a las columnas `Gender`, `Sleep Duration`, `Dietary
 
 ## Arquitectura del Modelo
 
-Como base se selecciono la siguiente arquitectura:
+Para la selección del modelo, utilizamos aquel uno que sigue y busca resolver la misma problematica: [[5]](Yang, T. (2022). Neural networks with different initialization methods for depression detection. Proceedings of the ABCs 2022 Conference. https://users.cecs.anu.edu.au/~Tom.Gedeon/conf/ABCs2022/1-papers/1_paper_v2_2.pdf)
 
 | Capa | Tipo | Neuronas | Activación |
 |---|---|---|---|
@@ -231,9 +231,11 @@ Esto directamente incentiva al modelo a priorizar el recall de la clase Depressi
 
 ### Limite decisivo
 
-Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilidad predicha es mayor a 0.5, se clasifica como positivo. En este modelo se redujo el umbral a **0.35**, lo que significa que el modelo etiqueta a un estudiante como deprimido si la probabilidad predicha es mayor al 35% en lugar del 50%.
+Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilidad predicha es mayor a 0.5, se clasifica como positivo. En este modelo se redujo el umbral a **0.35**, lo que significa que el modelo etiqueta a un estudiante como deprimido si la probabilidad predicha es mayor al 35% en lugar del 50%. Se hizo uso de curvas ROC para determinar el threshold optimo para nuestro modelo. [[4]](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
+)
 
 Esto se hizo con la intención de amplificar aún más el efecto de los `class weights` en la dirección correcta, ya que al bajar el umbral, el modelo es más agresivo al predecir depresión, capturando casos que con un umbral estándar habrían sido clasificados como sanos. El resultado directo es una reducción adicional de falsos negativos a costa de incrementar ligeramente los falsos positivos, lo que es un intercambio aceptable dado el contexto de salud mental del proyecto.
+
 
 ## Uso del Predictor
 
@@ -254,3 +256,8 @@ El programa te hará una serie de preguntas divididas en 4 secciones. En las pre
 [2] Forrest LN, Waschbusch DA, Pearl AM, Bixler EO, Sinoway LI, et al. (2023) Urban vs. rural differences in psychiatric diagnoses, symptom severity, and functioning in a psychiatric sample. PLOS ONE 18(10): e0286366. https://doi.org/10.1371/journal.pone.0286366
 
 [3] Gilman, S. E., Sucha, E., Kingsbury, M., Horton, N. J., Murphy, J. M., & Colman, I. (2017). Depression and mortality in a longitudinal study: 1952-2011. CMAJ : Canadian Medical Association journal = journal de l'Association medicale canadienne, 189(42), E1304–E1310. https://doi.org/10.1503/cmaj.170125
+
+[4] Google Developers. (2022). Classification: ROC and AUC. https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
+
+[5] Yang, T. (2022). Neural networks with different initialization methods for depression detection. Proceedings of the ABCs 2022 Conference. https://users.cecs.anu.edu.au/~Tom.Gedeon/conf/ABCs2022/1-papers/1_paper_v2_2.pdf
+
