@@ -231,8 +231,9 @@ Esto directamente incentiva al modelo a priorizar el recall de la clase Depressi
 
 ### Limite decisivo
 
-Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilidad predicha es mayor a 0.5, se clasifica como positivo. En este modelo se redujo el umbral a **0.35**, lo que significa que el modelo etiqueta a un estudiante como deprimido si la probabilidad predicha es mayor al 35% en lugar del 50%. Se hizo uso de curvas ROC para determinar el threshold optimo para nuestro modelo. [[4]](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
-)
+Nuestro modelo base de clasificación usa un limite de **0.5**, si la probabilidad predicha es mayor a 0.5, se clasifica como positivo. En este modelo se redujo el umbral a **0.35**, lo que significa que el modelo etiqueta a un estudiante como deprimido si la probabilidad predicha es mayor al 35% en lugar del 50%. Se hizo uso de curvas ROC para determinar el threshold optimo para nuestro modelo. [[4]](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc)
+
+![ROC Curve](assets/roc_curve.png)
 
 Esto se hizo con la intención de amplificar aún más el efecto de los `class weights` en la dirección correcta, ya que al bajar el umbral, el modelo es más agresivo al predecir depresión, capturando casos que con un umbral estándar habrían sido clasificados como sanos. El resultado directo es una reducción adicional de falsos negativos a costa de incrementar ligeramente los falsos positivos, lo que es un intercambio aceptable dado el contexto de salud mental del proyecto.
 
